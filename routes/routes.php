@@ -1,4 +1,10 @@
 <?php
+require_once 'controllers/ClientesController.php';
+require_once 'controllers/CursosController.php';
+
+use App\ClientesController;
+use App\CursosController;
+
 $response = array(
   'detalles' => 'no encontrado',
 );
@@ -18,13 +24,34 @@ switch ($routesArray[1]) {
   case 'cursos':
     //Verifición de segundo parametro
     if ($second_parameter_check && $routesArray[1] == 'cursos') {
-      $response['detalles'] = "Estoy en el curso {$routesArray[2]}";
-      echo json_encode($response, true);
-      return;
+      //Actualizar un curso
+      if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "PUT") {
+        $updateCourse = new CursosController();
+        $updateCourse->update($routesArray[2]);
+        return;
+      }
+      //Mostrar un solo curso
+      if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+        $showCourse = new CursosController();
+        $showCourse->show($routesArray[2]);
+        return;
+      }
+      if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "DELETE") {
+        $deleteCourse = new CursosController();
+        $deleteCourse->destroy($routesArray[2]);
+        return;
+      }
     }
-    // En caso de un solo parametro
-    $response['detalles'] = "Estoy en {$routesArray[1]}";
-    echo  json_encode($response, true);
+    // Peticion GET mostrar todo los cursos
+    if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "GET") {
+      $showCourse = new CursosController();
+      $showCourse->index();
+    }
+    //Crear un curso
+    if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
+      $saveCourse = new CursosController();
+      $saveCourse->store();
+    }
     break;
   case 'registros':
     if ($second_parameter_check && $routesArray[1] == 'registros') {
@@ -32,8 +59,12 @@ switch ($routesArray[1]) {
       echo json_encode($response, true);
       return;
     }
-    $response['detalles'] = "Estoy en {$routesArray[1]}";
-    echo  json_encode($response, true);
+
+    if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
+      $createRecord = new ClientesController();
+      $createRecord->store();
+    }
+
     break;
   default:
     echo  json_encode($response, true);
