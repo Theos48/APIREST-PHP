@@ -61,8 +61,15 @@ switch ($routesArray[1]) {
     }
 
     if (isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] == "POST") {
+
+      $data = array(
+        "nombre" => $_POST['nombre'],
+        "apellid" => $_POST['apellido'],
+        "email" => $_POST['email'],
+      );
       $createRecord = new ClientesController();
-      $createRecord->store();
+      $createRecord->store($data);
+      return;
     }
 
     break;

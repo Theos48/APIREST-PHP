@@ -4,10 +4,10 @@ namespace App;
 
 class  ClientesController
 {
-  public function store()
+  public function store($data)
   {
     $response['detalles'] = "Registro guardado";
-    echo  json_encode($response, true);
+    echo  json_encode($data, true);
     return;
   }
 }

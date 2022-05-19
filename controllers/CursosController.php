@@ -7,7 +7,9 @@ class  CursosController
   // Mostrar cursos
   public function index()
   {
+    
     $cursos = CursosModels::index('cursos');
+    echo json_encode($cursos);
     $response['status'] = 200;
     $response['total_registro'] = count($cursos);
     $response['detalles'] = $cursos;

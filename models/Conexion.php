@@ -3,9 +3,8 @@
   {
     static public function conn()
     {
-      $conn = new PDO("mysql:host=localhost;dbname=apirest", "admin", "admin");
-      echo "Connected successfully.";
-      $conn->exec("set name utf8");
+      $conn = new PDO("mysql:host=localhost;dbname=apirest", "root", "");
+      $conn->exec("set names utf8");
       return $conn;
     }
   }
